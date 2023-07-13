@@ -1,0 +1,15 @@
+C:\C# Activities\NotifInterface\bin\Debug\net6.0\NotifInterface.exe
+C:\C# Activities\NotifInterface\bin\Debug\net6.0\NotifInterface.deps.json
+C:\C# Activities\NotifInterface\bin\Debug\net6.0\NotifInterface.runtimeconfig.json
+C:\C# Activities\NotifInterface\bin\Debug\net6.0\NotifInterface.dll
+C:\C# Activities\NotifInterface\bin\Debug\net6.0\NotifInterface.pdb
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.csproj.AssemblyReference.cache
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.GeneratedMSBuildEditorConfig.editorconfig
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.AssemblyInfoInputs.cache
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.AssemblyInfo.cs
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.csproj.CoreCompileInputs.cache
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.dll
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\refint\NotifInterface.dll
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.pdb
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\NotifInterface.genruntimeconfig.cache
+C:\C# Activities\NotifInterface\obj\Debug\net6.0\ref\NotifInterface.dll
