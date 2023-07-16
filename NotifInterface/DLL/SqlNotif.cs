@@ -1,62 +1,68 @@
 ﻿using NotificationInterface;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using static NotificationInterface.DLL.InMemoryNotifData;
 
-namespace NotificationInterface.DLL
+namespace NotificationInterface
 {
     public class SqlNotif
     {
-        private readonly string _connectionString;
+        static string _connectionString = "Data Source=LAGADO17\\SQLEXPRESS;Initial Catalog=notifdatabase;Integrated Security=True";
+        static  SqlConnection sqlConnection;
 
-        public SqlNotif(string connectionString)
+        public SqlNotif()
         {
-            _connectionString = connectionString;
+            
+             sqlConnection = new SqlConnection(_connectionString);
         }
 
-        public object SqlNotificationType { get; private set; }
-
-        public void ConnectAndListenForChanges()
+        public List<Notification> GetNotifications()
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
+            UserRepository userRepository = new UserRepository();
+            var selectStatement = "SELECT StudentId, SenderId, ReceiverId, Content, DateTime FROM tblNotif";
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            sqlConnection.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
 
-            var command = new SqlCommand("SELECT StudentId, SenderName, ReceiverName, Content, TimeCode, IsRead FROM Notifications", connection);
+            List<Notification> notifications = new List<Notification>();
 
-            var dependency = new SqlDependency(command);
-            /*dependency.OnChange += Dependency_OnChange;*/
-
-            using (var reader = command.ExecuteReader())
+            while (reader.Read())
             {
-                while (reader.Read())
+                notifications.Add(new Notification
                 {
-                    var notification = new Notification
-                    {
-                        StudentId = reader.GetInt32(0),
-                        senderName = UserRepository.GetUserByName(reader.GetString(1)),
-                        receiverName = UserRepository.GetUserByName(reader.GetString(2)),
-                        Content = reader.GetString(3),
-                        TimeCode = reader.GetDateTime(4),
-                        IsRead = reader.GetBoolean(5)
-                    };
-
-                   
-                }
+                    StudentId = Convert.ToInt32(reader["StudentId"]),
+                    senderName = userRepository.GetUserByName(reader.GetString(1)),
+                    receiverName = userRepository.GetUserByName(reader.GetString(2)),
+                    Content = reader.GetString(3),
+                    DateTime = reader.GetDateTime(4),
+                    
+                });
             }
+
+            sqlConnection.Close();
+
+            return notifications;
         }
 
-        /*private void Dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        public void Notifications(Notification notification)
         {
-            if (e.Type == SqlNotificationType.Change)
-            {
-                // Handle the change event
-            }
+            var insertStatement = "INSERT INTO Notifications (StudentId, senderName, receiverName, Content, DateTime, IsRead) " +
+                                  "VALUES (@StudentId, @senderName, @receiverName, @Content, @DateTime, )";
+            SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
+            insertCommand.Parameters.AddWithValue("@StudentId", notification.StudentId);
+            insertCommand.Parameters.AddWithValue("@senderName", notification.senderName);
+            insertCommand.Parameters.AddWithValue("@receiverName", notification.receiverName);
+            insertCommand.Parameters.AddWithValue("@Content", notification.Content);
+            insertCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
+            
 
-            var dependency = (SqlDependency)sender;
-            dependency.OnChange -= Dependency_OnChange;
-            dependency.OnChange += Dependency_OnChange;
+            sqlConnection.Open();
 
-            ConnectAndListenForChanges();
-        }*/
+            insertCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
+        }
     }
 }
+

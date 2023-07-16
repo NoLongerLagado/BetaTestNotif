@@ -1,17 +1,19 @@
 ﻿using static NotificationInterface.DLL.InMemoryNotifData;
 
+
 namespace NotificationInterface.BLL
 {
     public class NotificationManagement
     {
-        private readonly UserRepository _userRepository;
-        private readonly NotificationRepository _notificationRepository;
+         static UserRepository _userRepository = new UserRepository();
+        static NotificationRepository _notificationRepository = new NotificationRepository();
 
         public NotificationManagement()
         {
             _userRepository = new UserRepository(); 
             _notificationRepository = new NotificationRepository(); 
         }
+        
 
         public void SendNotification(string senderName, string receiverName, string content)
         {
@@ -26,7 +28,7 @@ namespace NotificationInterface.BLL
                     senderName = sender,
                     receiverName = receiver,
                     Content = content,
-                    TimeCode = DateTime.Now,
+                    DateTime = DateTime.Now,
                     IsRead = false
                 };
 

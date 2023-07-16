@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NotificationInterface.DLL
 {
-    internal class InMemoryNotifData
+    public class InMemoryNotifData
     {
         public class UserRepository
         {
-            private List<User> _users;
+            public List<User> _users;
 
             public UserRepository()
             {
@@ -31,23 +31,30 @@ namespace NotificationInterface.DLL
         public class NotificationRepository
         {
           
-            private List<Notification> _notifications;
+            public List<Notification> _notifications;
 
             public NotificationRepository()
             {
                 _notifications = new List<Notification>();
+
+                
             }
 
             public void SaveNotification(Notification notification)
             {
                 _notifications.Add(notification);
             }
+            
         }
 
         public class User
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public User()
+            {
+                Name = string.Empty;
+            }
         }
 
         public class Notification
@@ -56,9 +63,15 @@ namespace NotificationInterface.DLL
             public User senderName { get; set; }
             public User receiverName { get; set; }
             public string Content { get; set; }
-            public DateTime TimeCode { get; set; }
+            public DateTime DateTime { get; set; }
             public bool IsRead { get; set; }
-
+            public Notification()
+            {
+                senderName = new User();
+                receiverName = new User();
+                Content = string.Empty;
+                DateTime = DateTime.MinValue;
+            }
         }
     }
 }
